@@ -3,7 +3,6 @@
 
 int main() {
 	int data[] = {10,11,12,13,14,15,16,17,18,19,20};
-//	string data[] = {"Shani","Seema","Deepika","Vibhor","Karuna"};
 
 	cout<<"Linked List program has been started"<<endl;
     auto list { make_unique<LinkedList<int>>() };
