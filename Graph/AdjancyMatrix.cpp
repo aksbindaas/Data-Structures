@@ -11,6 +11,7 @@ Node are A B C D E F G
 */
 
 #include <queue>
+#include <stack>
 #include <iostream>
 #include <memory>
 #define V 7
@@ -65,7 +66,26 @@ void bfs(int graph[][V], int startNode) {
         }
     }
     std::cout<<"\n";
-} 
+}
+
+void dfs(int graph[][V], int startNode) {
+    std::cout<<"\nDFS : ";
+    int visited[V] {0};
+    std::stack<int> s;
+    s.push(startNode);
+    visited[startNode] = VISITED;
+    while(!s.empty()) {
+        const int v = s.top(); s.pop();
+        std::cout<<v<<" ";
+        for (int i = 0; i< V; i++) {
+            if(graph[v][i] == 1 && visited[i] == NOT_VISITED) {
+                s.push(i);
+                visited[i] = VISITED;
+            }
+        }
+    }
+    std::cout<<"\n";
+}
 
 int main() {
    //Adjency matrix Undirected Graph
@@ -83,11 +103,12 @@ int main() {
    
    printGraph(graph);
    bfs(graph, 0);
-   
+   dfs(graph, 0);
    removeEdge(graph, 2, 6);
    std::cout<<"Is 2 and 6 Connected "<<isConnected(graph, 2, 6)<<"\n";
    
    printGraph(graph);
    bfs(graph, 0);
+   dfs(graph, 0);
    return 0;
 }
