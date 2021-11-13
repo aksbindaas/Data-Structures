@@ -54,20 +54,16 @@ public:
 
     std::vector<int> dijkstra(int start) {
         std::vector<int> distance(v, INT_MAX);
-        std::priority_queue<std::pair<int, int>, std::vector<std::pair<int, int>>, std::greater<std::pair<int, int>>> pq;
-        pq.push(std::make_pair(start, 0));
+        std::priority_queue<std::pair<int, int>> pq;
+        pq.push({start, 0});
         distance[start] = 0;
         while(!pq.empty()) {
             // get min distance from pq
             const int u = pq.top().first; pq.pop();
-            for (auto i = adj[u].begin(); i != adj[u].end(); ++i) {
-                AdjListNode node = *i;
-                
-                const int v = node.getV();
-                const int weight = node.getWeight();
-                if(distance[u] + weight < distance[v]) {
-                    distance[v] = distance[u] + weight;
-                    pq.push(std::make_pair(v, distance[v]));
+            for(auto node : adj[u]) {
+                if(distance[node.getV()] > distance[u] + node.getWeight()) {
+                    distance[node.getV()] = distance[u] + node.getWeight();
+                    pq.push({node.getV(), distance[node.getV()]});
                 }
             }
         }
