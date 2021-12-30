@@ -1,35 +1,54 @@
 #include <iostream>
 #include <string>
-#include <algorithm>
-#include <unordered_map>
+#include <vector>
 using namespace std;
 
-unordered_map<string, int> mem;
-
-string key(int i, int j) {
-    return to_string(i)+","+to_string(j);
+int lcsNonRecursion(int m, int n, string s1, string s2) {
+    vector<vector<int>>t(m+1, vector<int>(n+1));
+    for (int i=1; i<=m; i++) {
+        for (int j=1; j<=n;j++) {
+            if (s1[i-1] == s2[j-1]) {
+                t[i][j] = 1+t[i-1][j-1];
+            } else {
+                t[i][j] = max(t[i-1][j], t[i][j-1]);
+            }
+        }
+    }
+    return t[m][n];
 }
 
-int lcs(const string str, int i, const int m,  const string str1, int j, const int n) {
-    if (mem[key(i, j)] != 0)
-        return mem[key(i, j)];
-    else if(i == m || j == n) {
-        mem[key(i, j)] = 0;
+int lcsRecursion(int m, int n, string s1, string s2, vector<vector<int>>&t) {
+    if(m ==0 || n == 0) {
+        return 0;
     }
-    else if(str[i] == str1[j]) {
-        mem[key(i, j)] = 1 + lcs(str, i+1, m, str1, j+1, n);
-    } 
-    else {
-        mem[key(i, j)] = max(lcs(str,i+1, m, str1, j, n), lcs(str, i, m , str1, j+1, n));
+    if(t[m][n] !=-1) {
+        return t[m][n];
     }
-    return mem[key(i, j)];
+    if(s1[m-1] == s2[n-1]) {
+        t[m][n] = 1+lcsRecursion(m-1, n-1, s1, s2, t);
+        return t[m][n];
+    } else {
+        t[m][n] = max(lcsRecursion(m-1, n, s1, s2, t), lcsRecursion(m, n-1, s1, s2, t));
+        return t[m][n];
+    }
 }
-
-
 
 int main() {
     string str1 = "AGGTAB";
     string str2 = "GXTXAYB";
-    cout<<lcs(str1, 0, str1.length(), str2, 0, str2.length())<<endl;
+    vector<vector<int>>t(1001, vector<int>(1001, -1));
+    cout<<lcsNonRecursion(str1.length(), str2.length(),str1, str2)<<" "<<lcsRecursion(str1.length(), str2.length(),str1, str2, t)<<endl;;
+    str1 = "ABCDGH";
+    str2 = "AEDFHR";
+    for (auto &i : t)
+    std::fill(i.begin(), i.end(), -1);
+    cout<<lcsNonRecursion(str1.length(), str2.length(),str1, str2)<<" "<<lcsRecursion(str1.length(), str2.length(),str1, str2, t)<<endl;;
+    str1 = "ABC";
+    str2 = "AC";
+    for (auto &i : t)
+    std::fill(i.begin(), i.end(), -1);
+    cout<<lcsNonRecursion(str1.length(), str2.length(),str1, str2)<<" "<<lcsRecursion(str1.length(), str2.length(),str1, str2, t)<<endl;;
+    
     return 0;
+
 }
