@@ -3,6 +3,15 @@ Given a value V and array coins[] of size M,
 the task is to make the change for V cents, 
 given that you have an infinite supply of each of coins{coins1, coins2, ..., coinsm} valued coins. 
 Find the minimum number of coins to make the change. If not possible to make change then return -1.
+
+Input: coins[] = {25, 10, 5}, V = 30
+Output: Minimum 2 coins required
+We can use one coin of 25 cents and one of 5 cents 
+
+Input: coins[] = {9, 6, 5, 1}, V = 11
+Output: Minimum 2 coins required
+We can use one coin of 6 cents and 1 coin of 5 cents
+
 */
 
 #include<iostream>
@@ -28,20 +37,36 @@ int minCoins(vector<int> coins, int sum) {
             }
         }
     }
-    for (auto oneD : t) {
-        cout<<endl;
-        for (auto val : oneD) {
-            if(val != INT_MAX-1)
-                cout<<val<<" ";
-            else {
-                cout<<"/"<<" ";
-            }
+    // for (auto oneD : t) {
+    //     cout<<endl;
+    //     for (auto val : oneD) {
+    //         if(val != INT_MAX-1)
+    //             cout<<val<<" ";
+    //         else {
+    //             cout<<"/"<<" ";
+    //         }
+    //     }
+    // }
+    // cout<<endl;
+    return (t[size][sum] != INT_MAX -1) ? t[size][sum] : -1;
+}
+
+int minCoins(vector<int> coins, int n, int target) {
+    //target 0 coins required.
+    if(target==0) return 0;
+    int res = INT_MAX-1;
+    for (int k=0; k<n; k++) {
+        if(coins[k] <= target) {
+            int temp = 1+minCoins(coins, n, target-coins[k]);
+              res = min(res, temp);
         }
     }
-    cout<<endl;
-    return (t[size][sum] != INT_MAX -1) ? t[size][sum] : -1;
+    return res;
 }
 
 int main() {
     cout<<minCoins({9,6,5,1}, 11)<<endl; 
+    vector<int>a({9,6,5,1});
+    cout<<minCoins(a,a.size(),11)<<endl; 
+
 }
