@@ -6,20 +6,19 @@ Given a total score n, find number of distinct combinations to reach the given s
 #include <iostream>
 using namespace std;
 
-int solve(int n) {
-    int t[n+1];
+void util(long long int t[], int k, long long int n) {
+    for (long long int i = k; i <= n; i++) {
+        t[i] += t[i-k];
+    }
+}
+
+long long int solve(int n) {
+    long long int t[n+1];
     memset(t, 0, sizeof t);
     t[0] = 1;
-    for (int i = 3; i<=n; i++) {
-        t[i] += t[i-3];
-    }
-    for (int i = 5; i<=n; i++) {
-        t[i] += t[i-5];
-    }
-    for (int i = 10; i<=n; i++) {
-        t[i] += t[i-10];
-    }
-
+    util(t, 3, n);
+    util(t, 5, n);
+    util(t, 10, n);
     return t[n];
 }
 
