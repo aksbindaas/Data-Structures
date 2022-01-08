@@ -6,6 +6,7 @@ no elements without changing the order of the remaining elements.
 
 #include <iostream>
 #include <string>
+#include <algorithm>
 using namespace std;
 
 int lcs(string s) {
@@ -24,7 +25,28 @@ int lcs(string s) {
     return dp[x%2][x];
 }
 
+int lcs(int m , int n , string s1, string s2) {
+    if(m == 0 || n== 0) {
+        return 0;
+    }
+    if(s1[m-1] == s2[n-1]) {
+        return 1+ lcs(m-1, n-1, s1, s2);
+    } else {
+        return max(lcs(m-1, n , s1, s2), lcs(m, n-1, s1, s2));
+    }
+}
+
 int main() {
-    cout<<lcs("agbcba")<<endl;
-    cout<<lcs("BBABCBCAB")<<endl;
+    string s1 = "agbcba" , s2;
+    s2 = s1;
+    reverse(s1.begin(), s1.end());
+    cout<<lcs(s1)<<endl;
+    cout<<lcs(s1.length(), s1.length(), s1, s2)<<endl;
+
+    s1 = "BBABCBCAB";
+    s2 = s1;
+    reverse(s1.begin(), s1.end());
+    cout<<lcs(s2)<<endl;
+    cout<<lcs(s1.length(), s1.length(), s1, s2)<<endl;
+    
 }

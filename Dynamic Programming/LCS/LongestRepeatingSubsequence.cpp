@@ -24,6 +24,17 @@ int lrs(string s) {
     return dp[x][x];
 }
 
+int lrs(int m , int n , string s1, string s2){
+    if(m == 0 || n == 0) {
+        return 0;
+    }
+    if(s1[m-1] == s2[n-1] && m != n) {
+        return 1+lrs(m-1, n-1, s1, s2);
+    } else {
+        return max(lrs(m-1, n, s1, s2), lrs(m, n-1, s1, s2));
+    }
+}
+
 string printLRS(string s) {
     string ans;
     int i = s.length();
@@ -45,9 +56,13 @@ string printLRS(string s) {
 }
 
  int main() {
-     cout<<lrs("aabebcdd")<<endl;
-     cout<<printLRS("aabebcdd")<<endl;
-     cout<<lrs("axxxy")<<endl;
-     cout<<printLRS("axxxy")<<endl;
+     string s1 = "aabebcdd";
+     cout<<lrs(s1)<<endl;
+     cout<<lrs(s1.length(), s1.length(), s1, s1)<<endl;
+     cout<<printLRS(s1)<<endl;
+     string s2 = "axxxy";
+     cout<<lrs(s2)<<endl;
+     cout<<lrs(s2.length(), s2.length(), s2, s2)<<endl;
+     cout<<printLRS(s2)<<endl;
      return 0;
  }
