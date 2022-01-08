@@ -50,12 +50,12 @@ string PrintShortestCommonSubsequence(string s, string t) {
     return ans;
 }
 
-int ShortestCommonSubsequenceLength(string s, string t) {
+int ShortestCommonSuperSequenceLength(string s, string t) {
     return s.length()+t.length() - lcs(s, t);
 }
 int main() {
     string s = "cab", t = "abac";
     memset(dp, 0, sizeof dp);
-    cout<<ShortestCommonSubsequenceLength(s, t)<<endl;
+    cout<<ShortestCommonSuperSequenceLength(s, t)<<endl;
     cout<<PrintShortestCommonSubsequence(s, t)<<endl;
 }
