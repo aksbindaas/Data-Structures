@@ -38,9 +38,9 @@ void solve(vector<int> arr , int k) {
         } else {
             cout<<arr[q.front()]<<" ";
             // Remove the elements which are out of this window
-            while ((!q.empty()) && q.front() <= i)
-                // Remove from front of queue
-                q.pop_front();
+             if(q.front() == i) {
+               q.pop_front();
+            }
             i++;
             j++;
         }
